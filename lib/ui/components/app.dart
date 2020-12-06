@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../pages/pages.dart';
 
@@ -8,6 +9,7 @@ class App extends StatelessWidget {
   final primaryColorLight = Color.fromRGBO(188, 71, 123, 1);
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     return MaterialApp(
       title: '4Dev',
       debugShowCheckedModeBanner: false,
