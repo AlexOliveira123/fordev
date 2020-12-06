@@ -40,7 +40,7 @@ class LoginPage extends StatelessWidget {
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 8.0, bottom: 32),
-                      child: StreamBuilder<Object>(
+                      child: StreamBuilder<String>(
                           stream: presenter.passwordErrorStream,
                           builder: (context, snapshot) {
                             return TextFormField(
@@ -50,7 +50,9 @@ class LoginPage extends StatelessWidget {
                                   Icons.lock,
                                   color: Theme.of(context).primaryColorLight,
                                 ),
-                                errorText: snapshot.data,
+                                errorText: snapshot.data?.isEmpty == true
+                                    ? null
+                                    : snapshot.data,
                               ),
                               obscureText: true,
                               onChanged: presenter.validatePassword,
