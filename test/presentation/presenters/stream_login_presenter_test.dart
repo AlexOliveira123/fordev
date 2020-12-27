@@ -1,4 +1,5 @@
 import 'package:faker/faker.dart';
+import 'package:fordev/domain/helpers/domain_error.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
@@ -38,6 +39,10 @@ void main() {
     mockAuthenticationCall().thenAnswer(
       (_) async => AccountEntity(faker.guid.guid()),
     );
+  }
+
+  mockAuthenticationError(DomainError error) {
+    mockAuthenticationCall().thenThrow(error);
   }
 
   setUp(() {
@@ -176,6 +181,23 @@ void main() {
     expectLater(
       sut.isLoadingStream,
       emitsInOrder([true, false]),
+    );
+
+    await sut.auth();
+  });
+
+  test('Should emit correct events on InvalidCredentialsError', () async {
+    mockAuthenticationError(DomainError.invalidCredentials);
+    sut.validateEmail(email);
+    sut.validatePassword(password);
+
+    expectLater(
+      sut.isLoadingStream,
+      emits(false),
+    );
+
+    sut.mainErrorStream.listen(
+      expectAsync1((error) => expect(error, 'Credenciais inválidas.')),
     );
 
     await sut.auth();
