@@ -227,7 +227,7 @@ void main() {
 
     expectLater(
       sut.isLoadingStream,
-      emitsInOrder([true, false]),
+      emits(true),
     );
 
     await sut.auth();
