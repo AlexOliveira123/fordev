@@ -217,7 +217,7 @@ void main() {
       expectAsync1(
         (error) => expect(
           error,
-          'Algo errado aconteceu. Tete novamente em breve.',
+          'Algo errado aconteceu. Tente novamente em breve.',
         ),
       ),
     );
