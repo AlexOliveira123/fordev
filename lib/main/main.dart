@@ -29,11 +29,12 @@ class App extends StatelessWidget {
           transition: Transition.fadeIn,
         ),
         GetPage(
-            name: '/surveys',
-            page: () => Scaffold(
-                  body: Text('Enquetes'),
-                ),
-            transition: Transition.fadeIn),
+          name: '/surveys',
+          page: () => Scaffold(
+            body: Text('Enquetes'),
+          ),
+          transition: Transition.fadeIn,
+        ),
       ],
     );
   }
