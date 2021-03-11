@@ -8,8 +8,10 @@ class EnUs implements Translations {
       'Something went wrong. Please try again soon.';
 
   String get addAccount => 'Add account';
+  String get confirmPassword => 'Confirm password';
   String get email => 'Email';
   String get enter => 'Enter';
+  String get name => 'Name';
   String get login => 'Login';
   String get password => 'Password';
   String get wait => 'Wait...';
