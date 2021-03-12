@@ -18,6 +18,8 @@ class PasswordConfirmationInput extends StatelessWidget {
               Icons.lock,
               color: Theme.of(context).primaryColorLight,
             ),
+            errorText:
+                snapshot.hasData ? snapshot.data.description : snapshot.data,
           ),
           obscureText: true,
           onChanged: presenter.validatePasswordConfirmation,
