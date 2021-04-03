@@ -5,18 +5,20 @@ void showLoading(BuildContext context) {
   showDialog(
     context: context,
     barrierDismissible: false,
-    child: SimpleDialog(
-      children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 10),
-            Text(R.strings.wait, textAlign: TextAlign.center),
-          ],
-        )
-      ],
-    ),
+    builder: (context) {
+      return SimpleDialog(
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(height: 10),
+              Text(R.strings.wait, textAlign: TextAlign.center),
+            ],
+          )
+        ],
+      );
+    },
   );
 }
 
