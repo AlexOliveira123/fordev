@@ -11,6 +11,7 @@ import '../../domain/usecases/usecases.dart';
 class GetxSignUpPresenter extends GetxController {
   final Validation validation;
   final AddAccount addAccount;
+  final SaveCurrentAccount saveCurrentAccount;
 
   final _emailError = Rx<UIError>();
   final _nameError = Rx<UIError>();
@@ -33,6 +34,7 @@ class GetxSignUpPresenter extends GetxController {
   GetxSignUpPresenter({
     @required this.validation,
     @required this.addAccount,
+    @required this.saveCurrentAccount,
   });
 
   void validateEmail(String email) {
@@ -86,7 +88,7 @@ class GetxSignUpPresenter extends GetxController {
   }
 
   Future<void> signUp() async {
-    await addAccount.add(
+    final account = await addAccount.add(
       AddAccountParams(
         name: _name,
         email: _email,
@@ -94,6 +96,8 @@ class GetxSignUpPresenter extends GetxController {
         passwordConfirmation: _passwordConfirmation,
       ),
     );
+
+    await saveCurrentAccount.save(account);
   }
 
   // ignore: must_call_super
