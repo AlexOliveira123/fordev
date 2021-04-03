@@ -3,12 +3,14 @@ import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 
 import '../../ui/helpers/errors/errors.dart';
-import '../protocols/protocols.dart';
+import '../../ui/pages/pages.dart';
 
 import '../../domain/helpers/helpers.dart';
 import '../../domain/usecases/usecases.dart';
 
-class GetxSignUpPresenter extends GetxController {
+import '../protocols/protocols.dart';
+
+class GetxSignUpPresenter extends GetxController implements SignUpPresenter {
   final Validation validation;
   final AddAccount addAccount;
   final SaveCurrentAccount saveCurrentAccount;
@@ -118,6 +120,7 @@ class GetxSignUpPresenter extends GetxController {
     }
   }
 
-  // ignore: must_call_super
-  void dispose() {}
+  void goToLogin() {
+    _navigateTo.value = "/login";
+  }
 }
