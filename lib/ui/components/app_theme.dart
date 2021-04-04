@@ -31,6 +31,34 @@ ThemeData get theme {
     ),
   );
 
+  final elevatedButtonTheme = ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      primary: primaryColor,
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+    ),
+  );
+
+  final textButtonTheme = TextButtonThemeData(
+    style: ButtonStyle(
+      textStyle: MaterialStateProperty.resolveWith<TextStyle>(
+        (states) {
+          return TextStyle(
+            fontWeight: FontWeight.w600,
+          );
+        },
+      ),
+      foregroundColor: MaterialStateProperty.resolveWith<Color>(
+        (Set<MaterialState> states) {
+          return primaryColor; // Use the component's default.
+        },
+      ),
+    ),
+  );
+
   return ThemeData(
     primaryColor: primaryColor,
     primaryColorDark: primaryColorDark,
@@ -40,5 +68,7 @@ ThemeData get theme {
     textTheme: textTheme,
     inputDecorationTheme: inputDecorationTheme,
     buttonTheme: buttonTheme,
+    textButtonTheme: textButtonTheme,
+    elevatedButtonTheme: elevatedButtonTheme,
   );
 }
