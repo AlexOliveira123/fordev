@@ -103,7 +103,7 @@ void main() {
             'When a TextFormField has only one text child, means it has no errors, since one of the childs is always the label text',
       );
 
-      final button = tester.widget<TextButton>(find.byType(TextButton));
+      final button = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
       expect(button.onPressed, null);
       expect(find.byType(CircularProgressIndicator), findsNothing);
     },
@@ -201,7 +201,7 @@ void main() {
       isFormValidController.add(true);
       await tester.pump();
 
-      final button = tester.widget<TextButton>(find.byType(TextButton));
+      final button = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
 
       expect(button.onPressed, isNotNull);
     },
@@ -215,7 +215,7 @@ void main() {
       isFormValidController.add(false);
       await tester.pump();
 
-      final button = tester.widget<TextButton>(find.byType(TextButton));
+      final button = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
 
       expect(button.onPressed, null);
     },
@@ -228,7 +228,7 @@ void main() {
 
       isFormValidController.add(true);
       await tester.pump();
-      final button = find.byType(TextButton);
+      final button = find.byType(ElevatedButton);
       await tester.ensureVisible(button);
       await tester.tap(button);
       await tester.pump();
