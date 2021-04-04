@@ -14,7 +14,11 @@ void main() {
     );
   });
 
-  test('Should return error if value is not equal', () {
+  test('Should return error if values is not equal', () {
     expect(sut.validate('wrong_value'), ValidationError.invalidField);
+  });
+
+  test('Should return null if values are equal', () {
+    expect(sut.validate('any_value'), null);
   });
 }
