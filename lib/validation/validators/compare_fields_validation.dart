@@ -5,12 +5,16 @@ import '../protocols/protocols.dart';
 
 class CompareFieldsValidation implements FieldValidation {
   final String field;
-  final String valueToCompare;
+  final String fieldToCompare;
 
-  CompareFieldsValidation(
-      {@required this.field, @required this.valueToCompare});
+  CompareFieldsValidation({
+    @required this.field,
+    @required this.fieldToCompare,
+  });
 
-  ValidationError validate(String value) {
-    return value == valueToCompare ? ValidationError.invalidField : null;
+  ValidationError validate(Map input) {
+    return input[field] == input[fieldToCompare]
+        ? null
+        : ValidationError.invalidField;
   }
 }
