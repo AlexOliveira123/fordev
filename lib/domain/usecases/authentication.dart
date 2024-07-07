@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 import '../entities/entities.dart';
 
@@ -15,8 +14,8 @@ class AuthenticationParams extends Equatable {
   List get props => [email, secret];
 
   AuthenticationParams({
-    @required this.email,
-    @required this.secret,
+    required this.email,
+    required this.secret,
   });
 
   Map toJson() => {'email': email, 'password': secret};

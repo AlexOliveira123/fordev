@@ -2,20 +2,20 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
 import 'package:fordev/ui/pages/pages.dart';
 
 class SplashPresenterSpy extends Mock implements SplashPresenter {}
 
 void main() {
-  SplashPresenterSpy presenter;
-  StreamController<String> navigateToController;
+  late SplashPresenterSpy presenter;
+  late StreamController<String?> navigateToController;
 
   Future<void> loadPage(WidgetTester tester) async {
     presenter = SplashPresenterSpy();
-    navigateToController = StreamController<String>();
-    when(presenter.navigateToStream).thenAnswer(
+    navigateToController = StreamController<String?>();
+    when(() => presenter.navigateToStream).thenAnswer(
       (_) => navigateToController.stream,
     );
     await tester.pumpWidget(
@@ -38,18 +38,16 @@ void main() {
     navigateToController.close();
   });
 
-  testWidgets('Should present spinner on page load',
-      (WidgetTester tester) async {
+  testWidgets('Should present spinner on page load', (WidgetTester tester) async {
     await loadPage(tester);
 
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });
 
-  testWidgets('Should call loadCurrentAccount on page load',
-      (WidgetTester tester) async {
+  testWidgets('Should call loadCurrentAccount on page load', (WidgetTester tester) async {
     await loadPage(tester);
 
-    verify(presenter.checkAccount()).called(1);
+    verify(() => presenter.checkAccount()).called(1);
   });
 
   testWidgets('Should change page', (WidgetTester tester) async {

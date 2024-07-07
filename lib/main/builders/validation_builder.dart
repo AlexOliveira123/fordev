@@ -2,8 +2,8 @@ import '../../validation/protocols/protocols.dart';
 import '../../validation/validators/validators.dart';
 
 class ValidationBuilder {
-  static ValidationBuilder _instance;
-  String fieldName;
+  static late ValidationBuilder _instance;
+  late String fieldName;
   List<FieldValidation> validations = [];
 
   ValidationBuilder._();

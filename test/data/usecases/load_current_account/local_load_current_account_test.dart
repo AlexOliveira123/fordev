@@ -1,5 +1,5 @@
 import 'package:faker/faker.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
 import 'package:fordev/domain/helpers/helpers.dart';
@@ -8,16 +8,14 @@ import 'package:fordev/domain/entities/entities.dart';
 import 'package:fordev/data/cache/cache.dart';
 import 'package:fordev/data/usecases/usecases.dart';
 
-class FetchSecureCacheStorageSpy extends Mock
-    implements FetchSecureCacheStorage {}
+class FetchSecureCacheStorageSpy extends Mock implements FetchSecureCacheStorage {}
 
 void main() {
-  LocalLoadCurrentAccount sut;
-  FetchSecureCacheStorageSpy fetchSecureCacheStorage;
-  String token;
+  late LocalLoadCurrentAccount sut;
+  late FetchSecureCacheStorageSpy fetchSecureCacheStorage;
+  late String token;
 
-  PostExpectation mockFetchSecureCall() =>
-      when(fetchSecureCacheStorage.fetchSecure(any));
+  When mockFetchSecureCall() => when(() => fetchSecureCacheStorage.fetchSecure(any()));
 
   void mockFetchSecure() {
     mockFetchSecureCall().thenAnswer((_) async => token);
@@ -39,7 +37,7 @@ void main() {
   test('Should call FetchSecureCacheStorage with correct value', () async {
     await sut.load();
 
-    verify(fetchSecureCacheStorage.fetchSecure('token'));
+    verify(() => fetchSecureCacheStorage.fetchSecure('token'));
   });
 
   test('Should return an AccountEntity', () async {
@@ -48,8 +46,7 @@ void main() {
     expect(account, AccountEntity(token));
   });
 
-  test('Should throw UnexpectedError if FetchSecureCacheStorage throws',
-      () async {
+  test('Should throw UnexpectedError if FetchSecureCacheStorage throws', () async {
     mockFetchSecureError();
 
     final future = sut.load();

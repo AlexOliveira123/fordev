@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:get/get.dart';
-import 'package:meta/meta.dart';
 
 import '../../ui/helpers/errors/errors.dart';
 import '../../ui/pages/login/login_presenter.dart';
@@ -15,26 +14,26 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
   final Authentication authentication;
   final SaveCurrentAccount saveCurrentAccount;
 
-  String _email;
-  String _password;
-  final _emailError = Rx<UIError>();
-  final _passwordError = Rx<UIError>();
-  final _mainError = Rx<UIError>();
-  final _navigateTo = RxString();
+  String? _email;
+  String? _password;
+  final _emailError = Rx<UIError?>(null);
+  final _passwordError = Rx<UIError?>(null);
+  final _mainError = Rx<UIError?>(null);
+  final _navigateTo = Rx<String?>(null);
   final _isFormValid = false.obs;
   final _isLoading = false.obs;
 
-  Stream<UIError> get emailErrorStream => _emailError.stream;
-  Stream<UIError> get passwordErrorStream => _passwordError.stream;
-  Stream<UIError> get mainErrorStream => _mainError.stream;
-  Stream<String> get navigateToStream => _navigateTo.stream;
+  Stream<UIError?> get emailErrorStream => _emailError.stream;
+  Stream<UIError?> get passwordErrorStream => _passwordError.stream;
+  Stream<UIError?> get mainErrorStream => _mainError.stream;
+  Stream<String?> get navigateToStream => _navigateTo.stream;
   Stream<bool> get isFormValidStream => _isFormValid.stream;
   Stream<bool> get isLoadingStream => _isLoading.stream;
 
   GetxLoginPresenter({
-    @required this.validation,
-    @required this.authentication,
-    @required this.saveCurrentAccount,
+    required this.validation,
+    required this.authentication,
+    required this.saveCurrentAccount,
   });
 
   void validateEmail(String email) {
@@ -49,7 +48,7 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
     _validateForm();
   }
 
-  UIError _validateField(String field) {
+  UIError? _validateField(String field) {
     final formData = {
       'email': _email,
       'password': _password,
@@ -77,7 +76,7 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
       _mainError.value = null;
       _isLoading.value = true;
       final account = await authentication.auth(
-        AuthenticationParams(email: _email, secret: _password),
+        AuthenticationParams(email: _email!, secret: _password!),
       );
       await saveCurrentAccount.save(account);
       _navigateTo.value = '/surveys';

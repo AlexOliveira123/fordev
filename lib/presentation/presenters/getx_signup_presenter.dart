@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:get/get.dart';
-import 'package:meta/meta.dart';
 
 import '../../ui/helpers/errors/errors.dart';
 import '../../ui/pages/pages.dart';
@@ -15,34 +14,33 @@ class GetxSignUpPresenter extends GetxController implements SignUpPresenter {
   final AddAccount addAccount;
   final SaveCurrentAccount saveCurrentAccount;
 
-  final _emailError = Rx<UIError>();
-  final _nameError = Rx<UIError>();
-  final _passwordError = Rx<UIError>();
-  final _passwordConfirmationError = Rx<UIError>();
-  final _mainError = Rx<UIError>();
-  final _navigateTo = RxString();
+  final _emailError = Rx<UIError?>(null);
+  final _nameError = Rx<UIError?>(null);
+  final _passwordError = Rx<UIError?>(null);
+  final _passwordConfirmationError = Rx<UIError?>(null);
+  final _mainError = Rx<UIError?>(null);
+  final _navigateTo = Rx<String?>(null);
   final _isFormValid = false.obs;
   final _isLoading = false.obs;
 
-  String _name;
-  String _email;
-  String _password;
-  String _passwordConfirmation;
+  String? _name;
+  String? _email;
+  String? _password;
+  String? _passwordConfirmation;
 
-  Stream<UIError> get emailErrorStream => _emailError.stream;
-  Stream<UIError> get nameErrorStream => _nameError.stream;
-  Stream<UIError> get passwordErrorStream => _passwordError.stream;
-  Stream<UIError> get passwordConfirmationErrorStream =>
-      _passwordConfirmationError.stream;
-  Stream<UIError> get mainErrorStream => _mainError.stream;
-  Stream<String> get navigateToStream => _navigateTo.stream;
+  Stream<UIError?> get emailErrorStream => _emailError.stream;
+  Stream<UIError?> get nameErrorStream => _nameError.stream;
+  Stream<UIError?> get passwordErrorStream => _passwordError.stream;
+  Stream<UIError?> get passwordConfirmationErrorStream => _passwordConfirmationError.stream;
+  Stream<UIError?> get mainErrorStream => _mainError.stream;
+  Stream<String?> get navigateToStream => _navigateTo.stream;
   Stream<bool> get isFormValidStream => _isFormValid.stream;
   Stream<bool> get isLoadingStream => _isLoading.stream;
 
   GetxSignUpPresenter({
-    @required this.validation,
-    @required this.addAccount,
-    @required this.saveCurrentAccount,
+    required this.validation,
+    required this.addAccount,
+    required this.saveCurrentAccount,
   });
 
   void validateEmail(String email) {
@@ -71,7 +69,7 @@ class GetxSignUpPresenter extends GetxController implements SignUpPresenter {
     _validateForm();
   }
 
-  UIError _validateField(String field) {
+  UIError? _validateField(String field) {
     final formData = {
       'name': _name,
       'email': _email,
@@ -106,10 +104,10 @@ class GetxSignUpPresenter extends GetxController implements SignUpPresenter {
       _isLoading.value = true;
       final account = await addAccount.add(
         AddAccountParams(
-          name: _name,
-          email: _email,
-          password: _password,
-          passwordConfirmation: _passwordConfirmation,
+          name: _name!,
+          email: _email!,
+          password: _password!,
+          passwordConfirmation: _passwordConfirmation!,
         ),
       );
       await saveCurrentAccount.save(account);

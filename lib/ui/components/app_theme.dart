@@ -5,7 +5,7 @@ ThemeData get theme {
   final primaryColorDark = Color.fromRGBO(96, 0, 39, 1);
   final primaryColorLight = Color.fromRGBO(188, 71, 123, 1);
   final textTheme = TextTheme(
-    headline1: TextStyle(
+    displayLarge: TextStyle(
       fontSize: 30,
       fontWeight: FontWeight.bold,
       color: primaryColorDark,
@@ -33,7 +33,7 @@ ThemeData get theme {
 
   final elevatedButtonTheme = ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      primary: primaryColor,
+      backgroundColor: primaryColor,
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -63,12 +63,11 @@ ThemeData get theme {
     primaryColor: primaryColor,
     primaryColorDark: primaryColorDark,
     primaryColorLight: primaryColorLight,
-    accentColor: primaryColor,
-    backgroundColor: Colors.white,
     textTheme: textTheme,
     inputDecorationTheme: inputDecorationTheme,
     buttonTheme: buttonTheme,
     textButtonTheme: textButtonTheme,
     elevatedButtonTheme: elevatedButtonTheme,
+    colorScheme: ColorScheme.fromSwatch(backgroundColor: Colors.white),
   );
 }

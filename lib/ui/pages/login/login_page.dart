@@ -30,7 +30,7 @@ class LoginPage extends StatelessWidget {
             }
           });
 
-          presenter.mainErrorStream.listen((UIError error) {
+          presenter.mainErrorStream.listen((UIError? error) {
             if (error != null) {
               showErrorMessage(context, error.description);
             }
@@ -38,7 +38,7 @@ class LoginPage extends StatelessWidget {
 
           presenter.navigateToStream.listen((page) {
             if (page?.isNotEmpty == true) {
-              Get.offAllNamed(page);
+              Get.offAllNamed(page!);
             }
           });
 

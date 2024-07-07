@@ -1,5 +1,5 @@
 import 'package:faker/faker.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
 import 'package:fordev/domain/helpers/helpers.dart';
@@ -11,20 +11,19 @@ import 'package:fordev/data/usecases/usecases.dart';
 class HttpClientSpy extends Mock implements HttpClient<Map> {}
 
 void main() {
-  RemoteAddAccount sut;
-  HttpClientSpy httpClient;
-  String url;
-  AddAccountParams params;
+  late RemoteAddAccount sut;
+  late HttpClientSpy httpClient;
+  late String url;
+  late AddAccountParams params;
 
-  Map mockValidData() =>
-      {'accessToken': faker.guid.guid(), 'name': faker.person.name()};
+  Map mockValidData() => {'accessToken': faker.guid.guid(), 'name': faker.person.name()};
 
-  PostExpectation mockRequest() {
+  When mockRequest() {
     return when(
-      httpClient.request(
-        url: anyNamed('url'),
-        method: anyNamed('method'),
-        body: anyNamed('body'),
+      () => httpClient.request(
+        url: any(named: 'url'),
+        method: any(named: 'method'),
+        body: any(named: 'body'),
       ),
     );
   }
@@ -53,7 +52,7 @@ void main() {
     await sut.add(params);
 
     verify(
-      httpClient.request(
+      () => httpClient.request(
         url: url,
         method: 'post',
         body: {
@@ -90,8 +89,7 @@ void main() {
     expect(future, throwsA(DomainError.unexpected));
   });
 
-  test('Should throw InvalidCredentialsError if HttpClient returns 403',
-      () async {
+  test('Should throw InvalidCredentialsError if HttpClient returns 403', () async {
     mockHttpError(HttpError.forbbiden);
 
     final future = sut.add(params);
@@ -108,9 +106,7 @@ void main() {
     expect(account.token, validData['accessToken']);
   });
 
-  test(
-      'Should throw UnexpectedError if HttpClient returns 200 with invalid data',
-      () async {
+  test('Should throw UnexpectedError if HttpClient returns 200 with invalid data', () async {
     mockHttpData({'invalid_key': 'invalid_value'});
 
     final future = sut.add(params);

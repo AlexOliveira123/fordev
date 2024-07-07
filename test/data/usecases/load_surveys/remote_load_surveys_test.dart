@@ -1,5 +1,5 @@
 import 'package:faker/faker.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
 import 'package:fordev/domain/entities/entities.dart';
@@ -11,10 +11,10 @@ import 'package:fordev/data/http/http.dart';
 class HttpClientSpy extends Mock implements HttpClient<List<Map>> {}
 
 void main() {
-  RemoteLoadSurveys sut;
-  HttpClientSpy httpClient;
-  String url;
-  List<Map> list;
+  late RemoteLoadSurveys sut;
+  late HttpClientSpy httpClient;
+  late String url;
+  late List<Map> list;
 
   List<Map> mockValidData() {
     return [
@@ -33,11 +33,11 @@ void main() {
     ];
   }
 
-  PostExpectation mockRequest() {
+  When mockRequest() {
     return when(
-      httpClient.request(
-        url: anyNamed('url'),
-        method: anyNamed('method'),
+      () => httpClient.request(
+        url: any(named: 'url'),
+        method: any(named: 'method'),
       ),
     );
   }
@@ -60,7 +60,7 @@ void main() {
   test('Should call HttpClient with correct values', () async {
     await sut.load();
 
-    verify(httpClient.request(url: url, method: 'get'));
+    verify(() => httpClient.request(url: url, method: 'get'));
   });
 
   test('Should return surveys on 200', () async {
@@ -82,9 +82,7 @@ void main() {
     ]);
   });
 
-  test(
-      'Should throw UnexpectedError if HttpClient returns 200 with invalid data',
-      () async {
+  test('Should throw UnexpectedError if HttpClient returns 200 with invalid data', () async {
     mockHttpData([
       {'invalid_key': 'invalid_value'}
     ]);

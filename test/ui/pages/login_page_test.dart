@@ -4,44 +4,37 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fordev/ui/pages/pages.dart';
 import 'package:get/get.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
-import 'package:fordev/ui/pages/login/login_presenter.dart';
 import 'package:fordev/ui/helpers/errors/errors.dart';
 
 class LoginPresenterSpy extends Mock implements LoginPresenter {}
 
 void main() {
-  LoginPresenter presenter;
-  StreamController<UIError> emailErrorController;
-  StreamController<UIError> passwordErrorController;
-  StreamController<UIError> mainErrorController;
-  StreamController<String> navigateToController;
-  StreamController<bool> isFormValidController;
-  StreamController<bool> isLoadingController;
+  late LoginPresenter presenter;
+  late StreamController<UIError?> emailErrorController;
+  late StreamController<UIError?> passwordErrorController;
+  late StreamController<UIError?> mainErrorController;
+  late StreamController<String?> navigateToController;
+  late StreamController<bool> isFormValidController;
+  late StreamController<bool> isLoadingController;
 
   void initStreams() {
-    emailErrorController = StreamController<UIError>();
-    passwordErrorController = StreamController<UIError>();
-    mainErrorController = StreamController<UIError>();
-    navigateToController = StreamController<String>();
+    emailErrorController = StreamController<UIError?>();
+    passwordErrorController = StreamController<UIError?>();
+    mainErrorController = StreamController<UIError?>();
+    navigateToController = StreamController<String?>();
     isFormValidController = StreamController<bool>();
     isLoadingController = StreamController<bool>();
   }
 
   void mockStreams() {
-    when(presenter.emailErrorStream)
-        .thenAnswer((_) => emailErrorController.stream);
-    when(presenter.passwordErrorStream)
-        .thenAnswer((_) => passwordErrorController.stream);
-    when(presenter.mainErrorStream)
-        .thenAnswer((_) => mainErrorController.stream);
-    when(presenter.navigateToStream)
-        .thenAnswer((_) => navigateToController.stream);
-    when(presenter.isFormValidStream)
-        .thenAnswer((_) => isFormValidController.stream);
-    when(presenter.isLoadingStream)
-        .thenAnswer((_) => isLoadingController.stream);
+    when(() => presenter.emailErrorStream).thenAnswer((_) => emailErrorController.stream);
+    when(() => presenter.passwordErrorStream).thenAnswer((_) => passwordErrorController.stream);
+    when(() => presenter.mainErrorStream).thenAnswer((_) => mainErrorController.stream);
+    when(() => presenter.navigateToStream).thenAnswer((_) => navigateToController.stream);
+    when(() => presenter.isFormValidStream).thenAnswer((_) => isFormValidController.stream);
+    when(() => presenter.isLoadingStream).thenAnswer((_) => isLoadingController.stream);
   }
 
   void closeStreams() {
@@ -88,8 +81,7 @@ void main() {
       expect(
         emailTextChildren,
         findsOneWidget,
-        reason:
-            'When a TextFormField has only one text child, means it has no errors, since one of the childs is always the label text',
+        reason: 'When a TextFormField has only one text child, means it has no errors, since one of the childs is always the label text',
       );
 
       final passwordTextChildren = find.descendant(
@@ -99,8 +91,7 @@ void main() {
       expect(
         passwordTextChildren,
         findsOneWidget,
-        reason:
-            'When a TextFormField has only one text child, means it has no errors, since one of the childs is always the label text',
+        reason: 'When a TextFormField has only one text child, means it has no errors, since one of the childs is always the label text',
       );
 
       final button = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
@@ -116,11 +107,11 @@ void main() {
 
       final email = faker.internet.email();
       await tester.enterText(find.bySemanticsLabel('Email'), email);
-      verify(presenter.validateEmail(email));
+      verify(() => presenter.validateEmail(email));
 
       final password = faker.internet.password();
       await tester.enterText(find.bySemanticsLabel('Senha'), password);
-      verify(presenter.validatePassword(password));
+      verify(() => presenter.validatePassword(password));
     },
   );
 
@@ -233,7 +224,7 @@ void main() {
       await tester.tap(button);
       await tester.pump();
 
-      verify(presenter.auth()).called(1);
+      verify(() => presenter.auth()).called(1);
     },
   );
 
@@ -283,8 +274,7 @@ void main() {
       mainErrorController.add(UIError.unexpected);
       await tester.pump();
 
-      expect(find.text('Algo errado aconteceu. Tente novamente em breve.'),
-          findsOneWidget);
+      expect(find.text('Algo errado aconteceu. Tente novamente em breve.'), findsOneWidget);
     },
   );
 
@@ -324,7 +314,7 @@ void main() {
       await tester.tap(button);
       await tester.pump();
 
-      verify(presenter.goToSignUp()).called(1);
+      verify(() => presenter.goToSignUp()).called(1);
     },
   );
 }

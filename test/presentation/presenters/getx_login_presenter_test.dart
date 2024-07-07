@@ -1,5 +1,5 @@
 import 'package:faker/faker.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
 import 'package:fordev/ui/helpers/errors/errors.dart';
@@ -18,28 +18,28 @@ class AuthenticationSpy extends Mock implements Authentication {}
 class SaveCurrentAccountSpy extends Mock implements SaveCurrentAccount {}
 
 void main() {
-  GetxLoginPresenter sut;
-  AuthenticationSpy authentication;
-  ValidationSpy validation;
-  SaveCurrentAccountSpy saveCurrentAccount;
-  String email;
-  String password;
-  String token;
+  late GetxLoginPresenter sut;
+  late AuthenticationSpy authentication;
+  late ValidationSpy validation;
+  late SaveCurrentAccountSpy saveCurrentAccount;
+  late String email;
+  late String password;
+  late String token;
 
-  PostExpectation mockValidationCall(String field) {
+  When mockValidationCall(String? field) {
     return when(
-      validation.validate(
-        field: field == null ? anyNamed('field') : field,
-        input: anyNamed('input'),
+      () => validation.validate(
+        field: field == null ? any(named: 'field') : field,
+        input: any(named: 'input'),
       ),
     );
   }
 
-  mockValidation({String field, ValidationError value}) {
+  mockValidation({String? field, ValidationError? value}) {
     mockValidationCall(field).thenReturn(value);
   }
 
-  PostExpectation mockAuthenticationCall() => when(authentication.auth(any));
+  When mockAuthenticationCall() => when(() => authentication.auth(any()));
 
   mockAuthentication() {
     mockAuthenticationCall().thenAnswer(
@@ -51,8 +51,7 @@ void main() {
     mockAuthenticationCall().thenThrow(error);
   }
 
-  PostExpectation mockSaveCurrentAccountCall() =>
-      when(saveCurrentAccount.save(any));
+  When mockSaveCurrentAccountCall() => when(() => saveCurrentAccount.save(any()));
 
   mockSaveCurrentAccountError() {
     mockSaveCurrentAccountCall().thenThrow(DomainError.unexpected);
@@ -82,7 +81,7 @@ void main() {
 
     sut.validateEmail(email);
 
-    verify(validation.validate(field: 'email', input: formData)).called(1);
+    verify(() => validation.validate(field: 'email', input: formData)).called(1);
   });
 
   test('Should emit email error if validation fails', () {
@@ -151,7 +150,7 @@ void main() {
 
     sut.validatePassword(password);
 
-    verify(validation.validate(field: 'password', input: formData)).called(1);
+    verify(() => validation.validate(field: 'password', input: formData)).called(1);
   });
 
   test('Should emit requiredFieldError if password is empty', () {
@@ -224,7 +223,7 @@ void main() {
     await sut.auth();
 
     verify(
-      authentication.auth(AuthenticationParams(email: email, secret: password)),
+      () => authentication.auth(AuthenticationParams(email: email, secret: password)),
     ).called(1);
   });
 
@@ -235,7 +234,7 @@ void main() {
     await sut.auth();
 
     verify(
-      saveCurrentAccount.save(AccountEntity(token)),
+      () => saveCurrentAccount.save(AccountEntity(token)),
     ).called(1);
   });
 

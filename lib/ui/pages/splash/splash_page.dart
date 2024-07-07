@@ -5,7 +5,7 @@ import 'splash_presenter.dart';
 class SplashPage extends StatelessWidget {
   final SplashPresenter presenter;
 
-  SplashPage({@required this.presenter});
+  SplashPage({required this.presenter});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class SplashPage extends StatelessWidget {
       body: Builder(builder: (context) {
         presenter.navigateToStream.listen((page) {
           if (page?.isNotEmpty == true) {
-            Get.offAllNamed(page);
+            Get.offAllNamed(page!);
           }
         });
 
