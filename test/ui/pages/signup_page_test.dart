@@ -23,14 +23,14 @@ void main() {
   late StreamController<String?> navigateToController;
 
   void initStreams() {
-    nameErrorController = StreamController<UIError>();
-    emailErrorController = StreamController<UIError>();
-    passwordErrorController = StreamController<UIError>();
-    passwordConfirmationErrorController = StreamController<UIError>();
-    mainErrorController = StreamController<UIError>();
+    nameErrorController = StreamController<UIError?>();
+    emailErrorController = StreamController<UIError?>();
+    passwordErrorController = StreamController<UIError?>();
+    passwordConfirmationErrorController = StreamController<UIError?>();
+    mainErrorController = StreamController<UIError?>();
     isFormValidController = StreamController<bool>();
     isLoadingController = StreamController<bool>();
-    navigateToController = StreamController<String>();
+    navigateToController = StreamController<String?>();
   }
 
   void mockStreams() {

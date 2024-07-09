@@ -1,0 +1,1 @@
+flutter test --no-test-assets --coverage test/.

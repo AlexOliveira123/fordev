@@ -17,6 +17,10 @@ class AddAccountSpy extends Mock implements AddAccount {}
 
 class SaveCurrentAccountSpy extends Mock implements SaveCurrentAccount {}
 
+class AddAccountParamsFake extends Fake implements AddAccountParams {}
+
+class AccountEntityFake extends Fake implements AccountEntity {}
+
 void main() {
   late GetxSignUpPresenter sut;
   late ValidationSpy validation;
@@ -75,6 +79,11 @@ void main() {
     token = faker.guid.guid();
     mockValidation();
     mockAddAccount();
+  });
+
+  setUpAll(() {
+    registerFallbackValue(AddAccountParamsFake());
+    registerFallbackValue(AccountEntityFake());
   });
 
   test('Should call Validation with correct email', () {

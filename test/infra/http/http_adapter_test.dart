@@ -8,6 +8,8 @@ import 'package:fordev/infra/http/http.dart';
 
 class ClientSpy extends Mock implements Client {}
 
+class UriFake extends Fake implements Uri {}
+
 void main() {
   late HttpAdapter sut;
   late ClientSpy client;
@@ -18,7 +20,11 @@ void main() {
     client = ClientSpy();
     sut = HttpAdapter(client);
     url = faker.internet.httpUrl();
-    uri = uri;
+    uri = Uri.parse(url);
+  });
+
+  setUpAll(() {
+    registerFallbackValue(UriFake());
   });
 
   group('shared', () {
