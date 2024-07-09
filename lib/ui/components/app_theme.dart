@@ -21,7 +21,7 @@ ThemeData get theme {
     alignLabelWithHint: true,
   );
   final buttonTheme = ButtonThemeData(
-    colorScheme: ColorScheme.light(primary: primaryColor),
+    colorScheme: ColorScheme.light(primary: primaryColor, onPrimary: Colors.white),
     buttonColor: primaryColor,
     splashColor: primaryColorLight,
     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -39,6 +39,7 @@ ThemeData get theme {
         borderRadius: BorderRadius.circular(20),
       ),
       textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+      foregroundColor: Colors.white,
     ),
   );
 
@@ -68,6 +69,6 @@ ThemeData get theme {
     buttonTheme: buttonTheme,
     textButtonTheme: textButtonTheme,
     elevatedButtonTheme: elevatedButtonTheme,
-    colorScheme: ColorScheme.fromSwatch(backgroundColor: Colors.white),
+    colorScheme: ColorScheme.fromSeed(seedColor: primaryColorDark, background: Colors.white),
   );
 }
